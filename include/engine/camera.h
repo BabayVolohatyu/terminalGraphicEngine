@@ -12,12 +12,12 @@ namespace engine{
 
 class Camera{
   private:
-    Vector3 _position; // Camera position in world space
-    Quaternion _rotation; // Camera orientation
-    double _fov; // Field of view (in degrees)
-    double _aspectRatio; // Aspect ratio (width / height)
-    double _nearClip; // Near clipping plane
-    double _farClip; // Far clipping plane
+    Vector3 position_; // Camera position in world space
+    Quaternion rotation_; // Camera orientation
+    double fov_; // Field of view (in degrees)
+    double aspectRatio_; // Aspect ratio (width / height)
+    double nearClip_; // Near clipping plane
+    double farClip_; // Far clipping plane
 
     static Matrix<double> translate(const Vector3 &position);
 
@@ -45,10 +45,10 @@ class Camera{
 
     Vector3 right{1, 0, 0};
 
-    Camera(const Vector3 &position = {0, 0, 0},
+    explicit Camera(const Vector3 &position = {0, 0, 0},
            const Quaternion &rotation = {0, 0, 0},
            double fov = 90,
-           double aspectRatio = 16 / 9,
+           double aspectRatio = 1.77,// 16/9
            double nearClip = 0.1,
            double farClip = 1000);
 
@@ -65,24 +65,24 @@ class Camera{
 
     void rotate(const Vector3 &eulerAngles);
 
-    Matrix<double> viewMatrix() const;
+    [[nodiscard]] Matrix<double> viewMatrix() const;
 
-    Matrix<double> projectionMatrix() const;
+    [[nodiscard]] Matrix<double> projectionMatrix() const;
 
     //draws only triangles for now
     void drawObject(const Object &object, int screenWidth, int screenHeight) const;
 
-    Vector3 getPosition() const;
+    [[nodiscard]] Vector3 getPosition() const;
 
-    Quaternion getRotation() const;
+    [[nodiscard]] Quaternion getRotation() const;
 
-    double getFov() const;
+    [[nodiscard]] double getFov() const;
 
-    double getAspectRatio() const;
+    [[nodiscard]] double getAspectRatio() const;
 
-    double getNearClip() const;
+    [[nodiscard]] double getNearClip() const;
 
-    double getFarClip() const;
+    [[nodiscard]] double getFarClip() const;
 
     void setPosition(const Vector3 &position);
 

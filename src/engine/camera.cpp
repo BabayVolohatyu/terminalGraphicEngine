@@ -128,35 +128,35 @@ Camera::Camera(const Vector3 &position,
                double aspectRatio,
                double nearClip,
                double farClip)
-    : _position{position},
-      _rotation{rotation},
-      _fov{fov},
-      _aspectRatio{aspectRatio},
-      _nearClip{nearClip},
-      _farClip{farClip} {
+    : position_{position},
+      rotation_{rotation},
+      fov_{fov},
+      aspectRatio_{aspectRatio},
+      nearClip_{nearClip},
+      farClip_{farClip} {
 }
 
 void Camera::translatePosition(const Vector3 &direction, double amount) {
-    _position = _position + (direction * amount);
+    position_ = position_ + (direction * amount);
 }
 
 void Camera::moveForward(double amount) {
-    translatePosition(_rotation * forward, amount);
+    translatePosition(rotation_ * forward, amount);
 }
 
 void Camera::moveRight(double amount) {
-    translatePosition(_rotation * right, amount);
+    translatePosition(rotation_ * right, amount);
 }
 
 void Camera::moveUp(double amount) {
-    translatePosition(_rotation * up, amount);
+    translatePosition(rotation_ * up, amount);
 }
 
 void Camera::lookAt(const Point &point) {
     Vector3 desiredForward = {
-        point.position.getX() - this->_position.getX(),
-        point.position.getY() - this->_position.getY(),
-        point.position.getZ() - this->_position.getZ()
+        point.position.getX() - this->position_.getX(),
+        point.position.getY() - this->position_.getY(),
+        point.position.getZ() - this->position_.getZ()
     };
     Vector3 currentForward = this->getRotation() * this->forward;
 
@@ -167,7 +167,7 @@ void Camera::lookAt(const Point &point) {
     if (cosTheta < -0.9999) {
         Quaternion turn = Quaternion::fromAxis(worldUp, M_PI);
         Quaternion newRotation = turn.normalized() * this->getRotation();
-        this->_rotation = newRotation.normalized();
+        this->rotation_ = newRotation.normalized();
     }
 
     Vector3 rotAxis = currentForward.cross(desiredForward);
@@ -176,30 +176,30 @@ void Camera::lookAt(const Point &point) {
 
     Quaternion rotQuat = Quaternion::fromAxis(rotAxis.normalized(), angle);
     Quaternion newRotation = rotQuat.normalized() * this->getRotation();
-    this->_rotation = newRotation.normalized();
+    this->rotation_ = newRotation.normalized();
 }
 
 void Camera::rotate(const Vector3 &eulerAngles) {
     Quaternion deltaRotation(eulerAngles);
-    _rotation = deltaRotation * _rotation;
+    rotation_ = deltaRotation * rotation_;
 }
 
 Matrix<double> Camera::viewMatrix() const {
-    Matrix<double> translationMatrix = translate(-_position);
-    Matrix<double> rotationMatrix = Quaternion::toMatrix(_rotation).transpose();
+    Matrix<double> translationMatrix = translate(-position_);
+    Matrix<double> rotationMatrix = Quaternion::toMatrix(rotation_).transpose();
     return translationMatrix * rotationMatrix;
 }
 
 Matrix<double> Camera::projectionMatrix() const {
-    double fovRadians = _fov * (M_PI / 180);
+    double fovRadians = fov_ * (M_PI / 180);
     double tanHalfFov = tan(fovRadians / 2);
-    double range = _nearClip - _farClip;
+    double range = nearClip_ - farClip_;
 
     Matrix<double> proj(4, 4, 0);
-    proj[0][0] = 1 / (tanHalfFov * _aspectRatio);
+    proj[0][0] = 1 / (tanHalfFov * aspectRatio_);
     proj[1][1] = 1 / tanHalfFov;
-    proj[2][2] = (-_nearClip - _farClip) / range;
-    proj[2][3] = 2 * _farClip * _nearClip / range;
+    proj[2][2] = (-nearClip_ - farClip_) / range;
+    proj[2][3] = 2 * farClip_ * nearClip_ / range;
     proj[3][2] = 1;
     proj[3][3] = 0;
 
@@ -211,49 +211,49 @@ void Camera::drawObject(const Object &object, int screenWidth, int screenHeight)
 }
 
 Vector3 Camera::getPosition() const {
-    return _position;
+    return position_;
 }
 
 Quaternion Camera::getRotation() const {
-    return _rotation;
+    return rotation_;
 }
 
 double Camera::getFov() const {
-    return _fov;
+    return fov_;
 }
 
 double Camera::getAspectRatio() const {
-    return _aspectRatio;
+    return aspectRatio_;
 }
 
 double Camera::getNearClip() const {
-    return _nearClip;
+    return nearClip_;
 }
 
 double Camera::getFarClip() const {
-    return _farClip;
+    return farClip_;
 }
 
 void Camera::setPosition(const Vector3 &position) {
-    _position = position;
+    position_ = position;
 }
 
 void Camera::setRotation(const Quaternion &rotation) {
-    _rotation = rotation;
+    rotation_ = rotation;
 }
 
 void Camera::setFov(double fov) {
-    _fov = fov;
+    fov_ = fov;
 }
 
 void Camera::setAspectRatio(double aspectRatio) {
-    _aspectRatio = aspectRatio;
+    aspectRatio_ = aspectRatio;
 }
 
 void Camera::setNearClip(double nearClip) {
-    _nearClip = nearClip;
+    nearClip_ = nearClip;
 }
 
 void Camera::setFarClip(double farClip) {
-    _farClip = farClip;
+    farClip_ = farClip;
 }
