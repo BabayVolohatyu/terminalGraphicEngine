@@ -14,7 +14,7 @@ class Quaternion {
 
     static void approximate(double &w, double &x, double &y, double &z);
 
-    double approximate(double value);
+    static double approximate(double value);
 
     static double degreesToRadians(double degrees);
   public:
