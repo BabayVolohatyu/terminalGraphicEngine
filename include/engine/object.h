@@ -26,10 +26,10 @@ struct Triangle{
 
 class Object {
   private:
-    Vector3 _position;
-    Quaternion _rotation;
-    std::vector<Point> _vertices;
-    std::vector<Triangle> _triangles;
+    Vector3 position_;
+    Quaternion rotation_;
+    std::vector<Point> vertices_;
+    std::vector<Triangle> triangles_;
 
     [[nodiscard]] Matrix<double> getTranslationMatrix() const;
 

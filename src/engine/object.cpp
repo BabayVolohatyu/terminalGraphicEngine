@@ -30,110 +30,110 @@ Matrix<double> Object::getTranslationMatrix() const {
     for (int i = 0; i < 4; i++) {
         translation[i][i] = 1;
     }
-    translation[0][3] = _position.getX();
-    translation[1][3] = _position.getY();
-    translation[2][3] = _position.getZ();
+    translation[0][3] = position_.getX();
+    translation[1][3] = position_.getY();
+    translation[2][3] = position_.getZ();
     return translation;
 }
 
 Object::Object()
-: _position{0, 0, 0}, _rotation{1, 0, 0, 0}{}
+: position_{0, 0, 0}, rotation_{1, 0, 0, 0}{}
 
 Object::Object(const Vector3 &position, const Quaternion &rotation)
-: _position{position}, _rotation{rotation}{}
+: position_{position}, rotation_{rotation}{}
 
 void Object::addVertex(const Point &vertex) {
-    _vertices.push_back(vertex);
+    vertices_.push_back(vertex);
 }
 
 void Object::removeVertex(int index) {
-    if (index < _vertices.size() && index >= 0) {
+    if (index < vertices_.size() && index >= 0) {
         // First remove all triangles containing this vertex
-        for (int i = 0; i < _triangles.size(); ) { // notice no i++
+        for (int i = 0; i < triangles_.size(); ) { // notice no i++
             bool triangleHasVertex = false;
-            for (const Point* p : _triangles[i].vertices) {
-                if (&_vertices[index] == p) {
+            for (const Point* p : triangles_[i].vertices) {
+                if (&vertices_[index] == p) {
                     triangleHasVertex = true;
                     break;
                 }
             }
             if (triangleHasVertex) {
-                _triangles.erase(_triangles.begin() + i); // don't increment i
+                triangles_.erase(triangles_.begin() + i); // don't increment i
             } else {
                 i++; // increment only if no erase
             }
         }
 
         // Now remove the vertex itself
-        _vertices.erase(_vertices.begin() + index);
+        vertices_.erase(vertices_.begin() + index);
     }
 }
 
 void Object::makeTriangle(int v1, int v2, int v3) {
-    if (v1 >= 0 && v1 < _vertices.size() &&
-          v2 >= 0 && v2 < _vertices.size() &&
-          v3 >= 0 && v3 < _vertices.size())
+    if (v1 >= 0 && v1 < vertices_.size() &&
+          v2 >= 0 && v2 < vertices_.size() &&
+          v3 >= 0 && v3 < vertices_.size())
     {
-        _triangles.emplace_back(&_vertices[v1], &_vertices[v2], &_vertices[v3]);
+        triangles_.emplace_back(&vertices_[v1], &vertices_[v2], &vertices_[v3]);
     }
 }
 
 void Object::rotate(const Quaternion &rotationQuaternion) {
-    _rotation = rotationQuaternion * _rotation;
-    for (Point &p: _vertices) {
-        Vector3 localVertex(p.position.getX() - _position.getX(),
-            p.position.getY() - _position.getY(),
-            p.position.getZ() - _position.getZ());
-        Vector3 rotatedVertex = _rotation * localVertex;
-        p.position =rotatedVertex + _position;
+    rotation_ = rotationQuaternion * rotation_;
+    for (Point &p: vertices_) {
+        Vector3 localVertex(p.position.getX() - position_.getX(),
+            p.position.getY() - position_.getY(),
+            p.position.getZ() - position_.getZ());
+        Vector3 rotatedVertex = rotation_ * localVertex;
+        p.position =rotatedVertex + position_;
     }
 }
 
 Matrix<double> Object::getModelMatrix() const {
     Matrix<double> translationMatrix = getTranslationMatrix();
-    Matrix<double> rotationMatrix = Quaternion::toMatrix(_rotation);
+    Matrix<double> rotationMatrix = Quaternion::toMatrix(rotation_);
     return translationMatrix*rotationMatrix;
 }
 
 std::vector<Point> Object::vertices() const {
-    return _vertices;
+    return vertices_;
 }
 
 std::vector<Triangle> Object::triangles() const {
-    return _triangles;
+    return triangles_;
 }
 
 Vector3 Object::position() const {
-    return _position;
+    return position_;
 }
 
 Quaternion Object::rotation() const {
-    return _rotation;
+    return rotation_;
 }
 
 void Object::setPosition(const Vector3 &position) {
-    Vector3 translation = position - _position;
-    for (Point &p: _vertices) {
+    Vector3 translation = position - position_;
+    for (Point &p: vertices_) {
         p.position.setX(p.position.getX() + translation.getX());
         p.position.setY(p.position.getY() + translation.getY());
         p.position.setZ(p.position.getZ() + translation.getZ());
     }
-    _position = position;
+    position_ = position;
 }
 
 void Object::setPos(double x, double y, double z) {
     Vector3 newPos(x, y, z);
-    Vector3 translation = newPos - _position;
-    for (Point &p: _vertices) {
+    Vector3 translation = newPos - position_;
+    for (Point &p: vertices_) {
         p.position.setX(p.position.getX() + translation.getX());
         p.position.setY(p.position.getY() + translation.getY());
         p.position.setZ(p.position.getZ() + translation.getZ());
     }
-    _position = newPos;
+    position_ = newPos;
 }
 
 void Object::setRot(const Quaternion &rotation) {
-    _rotation = Quaternion(1, 0, 0, 0);
+    rotation_ = Quaternion(1, 0, 0, 0);
     rotate(rotation);
 }
 
