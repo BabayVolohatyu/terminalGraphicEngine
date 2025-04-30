@@ -23,13 +23,11 @@ class Camera{
 
     static void display(int screenX, int screenY);
 
-    void drawLine(int x0, int y0, int x1, int y1) const;
+    static void drawLine(int x0, int y0, int x1, int y1) ;
 
     void drawVertices(const Object &object, int screenWidth, int screenHeight) const;
 
-    void drawTriangle(const std::pair<double, double> &p1,
-                  const std::pair<double, double> &p2,
-                  const std::pair<double, double> &p3) const;
+    static void drawTriangle(const Point &p1, const Point &p2, const Point &p3) ;
 
     void drawTriangles(const Object &object, int screenWidth, int screenHeight) const;
 

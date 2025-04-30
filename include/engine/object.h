@@ -49,13 +49,13 @@ class Object {
 
     [[nodiscard]] Matrix<double> getModelMatrix() const;
 
-    [[nodiscard]] std::vector<Point> vertices() const;
+    [[nodiscard]] std::vector<Point> getVertices() const;
 
-    [[nodiscard]] std::vector<Triangle> triangles() const;
+    [[nodiscard]] std::vector<Triangle> getTriangles() const;
 
-    [[nodiscard]] Vector3 position() const;
+    [[nodiscard]] Vector3 getPosition() const;
 
-    [[nodiscard]] Quaternion rotation() const;
+    [[nodiscard]] Quaternion getRotation() const;
 
     void setPosition(const Vector3 &position);
 

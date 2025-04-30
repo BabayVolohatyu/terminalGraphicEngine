@@ -95,19 +95,19 @@ Matrix<double> Object::getModelMatrix() const {
     return translationMatrix*rotationMatrix;
 }
 
-std::vector<Point> Object::vertices() const {
+std::vector<Point> Object::getVertices() const {
     return vertices_;
 }
 
-std::vector<Triangle> Object::triangles() const {
+std::vector<Triangle> Object::getTriangles() const {
     return triangles_;
 }
 
-Vector3 Object::position() const {
+Vector3 Object::getPosition() const {
     return position_;
 }
 
-Quaternion Object::rotation() const {
+Quaternion Object::getRotation() const {
     return rotation_;
 }
 
