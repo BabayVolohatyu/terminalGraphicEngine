@@ -1,7 +1,6 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
-#include <iostream>
 #include <vector>
 
 namespace math {
@@ -72,8 +71,6 @@ class Matrix {
 
     bool operator!=(const Matrix &other) const;
 
-    friend std::ostream &operator<<(std::ostream &os, const Matrix &obj);
-
     [[nodiscard]] std::pair<size_t, size_t> size() const;
 
     T get(size_t row, size_t col) const;
@@ -81,5 +78,6 @@ class Matrix {
     void set(size_t row, size_t col, T value);
 };
 }
+#include "matrix.tpp"
 
 #endif
