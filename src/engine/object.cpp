@@ -103,15 +103,15 @@ std::vector<Triangle> Object::getTriangles() const {
     return triangles_;
 }
 
-Vector3 Object::getPosition() const {
+Vector3 Object::getPos() const {
     return position_;
 }
 
-Quaternion Object::getRotation() const {
+Quaternion Object::getRot() const {
     return rotation_;
 }
 
-void Object::setPosition(const Vector3 &position) {
+void Object::setPos(const Vector3 &position) {
     Vector3 translation = position - position_;
     for (Point &p: vertices_) {
         p.position.setX(p.position.getX() + translation.getX());
@@ -119,17 +119,6 @@ void Object::setPosition(const Vector3 &position) {
         p.position.setZ(p.position.getZ() + translation.getZ());
     }
     position_ = position;
-}
-
-void Object::setPos(double x, double y, double z) {
-    Vector3 newPos(x, y, z);
-    Vector3 translation = newPos - position_;
-    for (Point &p: vertices_) {
-        p.position.setX(p.position.getX() + translation.getX());
-        p.position.setY(p.position.getY() + translation.getY());
-        p.position.setZ(p.position.getZ() + translation.getZ());
-    }
-    position_ = newPos;
 }
 
 void Object::setRot(const Quaternion &rotation) {

@@ -53,13 +53,11 @@ class Object {
 
     [[nodiscard]] std::vector<Triangle> getTriangles() const;
 
-    [[nodiscard]] Vector3 getPosition() const;
+    [[nodiscard]] Vector3 getPos() const;
 
-    [[nodiscard]] Quaternion getRotation() const;
+    [[nodiscard]] Quaternion getRot() const;
 
-    void setPosition(const Vector3 &position);
-
-    void setPos(double x, double y, double z);
+    void setPos(const Vector3 &position);
 
     void setRot(const Quaternion &rotation);
 };
