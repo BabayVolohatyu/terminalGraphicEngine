@@ -8,6 +8,8 @@ namespace math {
 
 class Quaternion {
   private:
+    constexpr double static kMinLimit = 1e-10;
+
     double w_, x_, y_, z_;
 
     void approximate(double &w, double &x, double &y, double &z);
