@@ -20,11 +20,11 @@ class Quaternion {
   public:
     Quaternion();
 
-    explicit Quaternion(double w, double x, double y, double z);
+    Quaternion(double w, double x, double y, double z);
 
     Quaternion(double w, const Vector3 &rotation);
 
-    explicit Quaternion(const Vector3 &rotation);
+    Quaternion(const Vector3 &rotation);
 
     Quaternion(double xRotation, double yRotation, double zRotation);
 
