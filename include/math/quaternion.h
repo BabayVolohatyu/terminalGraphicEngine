@@ -24,7 +24,7 @@ class Quaternion {
 
     Quaternion(double w, const Vector3 &rotation);
 
-    Quaternion(const Vector3 &rotation);
+    explicit Quaternion(const Vector3 &rotation);
 
     Quaternion(double xRotation, double yRotation, double zRotation);
 
