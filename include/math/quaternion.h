@@ -16,7 +16,7 @@ class Quaternion {
 
     double approximate(double value);
 
-    double degreesToRadians(double degrees);
+    static double degreesToRadians(double degrees);
   public:
     Quaternion();
 
