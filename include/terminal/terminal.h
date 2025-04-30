@@ -2,6 +2,7 @@
 #define TERMINAL_H
 
 #include <iostream>
+
 namespace terminal {
 
 class Terminal {
