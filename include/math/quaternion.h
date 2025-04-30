@@ -12,7 +12,7 @@ class Quaternion {
 
     double w_, x_, y_, z_;
 
-    void approximate(double &w, double &x, double &y, double &z);
+    static void approximate(double &w, double &x, double &y, double &z);
 
     double approximate(double value);
 
