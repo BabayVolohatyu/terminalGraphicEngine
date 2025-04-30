@@ -10,6 +10,7 @@ namespace engine{
 
 struct Point{
   Vector3 position;
+
   Point();
 
   explicit Point(const Vector3 &initPosition);
@@ -61,7 +62,6 @@ class Object {
     void setPos(double x, double y, double z);
 
     void setRot(const Quaternion &rotation);
-
 };
 }
 #endif
