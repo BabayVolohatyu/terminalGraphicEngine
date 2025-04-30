@@ -15,7 +15,7 @@ class Matrix {
 
     std::vector<std::vector<T> > data_;
 
-    static void approximate(std::vector<std::vector<T>>& matrix);
+    void approximate(std::vector<std::vector<T>>& matrix);
 
   public:
     explicit Matrix(size_t rows = 1, size_t cols = 1, T initialValue = T());
